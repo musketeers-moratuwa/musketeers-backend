@@ -1,4 +1,4 @@
-# musketeers-backend
+s# musketeers-backend
 # JewelVerse - A React-based Jewelry Marketplace with Spring Boot Backend
 
 This project consists of a front-end application built with React and a back-end API built with Spring Boot, designed for a jewelry marketplace. It provides a user-friendly interface for browsing, searching, and purchasing jewelry items.  This README focuses on the Spring Boot backend component.  A separate README exists for the React frontend.
