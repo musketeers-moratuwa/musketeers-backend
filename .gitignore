@@ -1,60 +1,58 @@
-# Compiled class files
-*.class
-
-# Log files
-*.log
-*.out
-
-# Build directories
-/bin/
-/build/
-/target/
-/out/
-
-# Maven & Gradle
-.mvn/
-.gradle/
-!gradle/wrapper/gradle-wrapper.jar
-**/build/
+# General OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.tmp
+*.bak
+*.lock
 
 # IntelliJ IDEA
 .idea/
 *.iml
-*.iws
 
-# Eclipse
-.metadata/
-*.classpath
-*.project
-*.settings/
-
-# NetBeans
-nbproject/private/
+# Build output directories
+out/
 build/
-nbbuild/
+target/
 dist/
-.nb-gradle/
+bin/
 
-# VS Code
-.vscode/
+# Log files
+*.log
 
-# Temporary files
-*.swp
-*.swo
-*.bak
+# Dependency directories (adjust based on your project type)
+node_modules/
+venv/
+env/
+packages/
 
-# OS-specific files
-.DS_Store
-Thumbs.db
+# Package manager specific files (adjust based on your project type)
+package-lock.json
+yarn.lock
+pom.xml.lockfile
+requirements.txt
+*.egg-info/
+.pytest_cache/
 
-# JAR/WAR/EAR files
-*.jar
-*.war
-*.ear
+# Environment files
+.env
+.env.*
+!/.env.example # Include example environment file
 
-# Generated files
-hs_err_pid*
-replay_pid*
+# Temporary files and directories
+tmp/
+temp/
+__pycache__/
 
-# Lombok cache
-.lombok/
+# Docker related
+docker-compose*.yml
+.dockerenv
+
+# Maven specific
+/.mvn/wrapper/maven-wrapper.jar
+/.mvn/wrapper/maven-wrapper.properties
+
+# Gradle specific
+.gradle/
+/build
