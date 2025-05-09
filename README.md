@@ -1,97 +1,78 @@
-# JewelVerse - A React-based Jewelry Marketplace with Spring Boot Backend
+# Musketeers Backend
 
-This project consists of a front-end application built with React and a back-end API built with Spring Boot, designed for a jewelry marketplace. It provides a user-friendly interface for browsing, searching, and purchasing jewelry items. This README focuses on the Spring Boot backend component. A separate README exists for the React frontend.
+This is the backend for the Musketeers application, built with Node.js and Express.
 
-## Table of Contents
+## Prerequisites
 
-- [Introduction](#introduction)
-- [Features (Backend)](#features-backend)
-- [Technologies Used (Backend)](#technologies-used-backend)
-- [Installation (Backend)](#installation-backend)
-- [Usage (Backend)](#usage-backend)
-- [Project Structure (Backend)](#project-structure-backend)
-- [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+- Node.js (v18.x or later recommended)
+- npm
+- MySQL Server
 
-## Introduction
+## Setup
 
-JewelVerse aims to create a seamless online experience for buying and selling jewelry. This project comprises a React front-end (documented separately) for user interaction and a Spring Boot back-end for data management, user authentication, and order processing. This README details the Spring Boot backend component.
+1.  **Clone the repository (if applicable) or ensure you are in the `musketeers-backend` directory.**
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Environment Variables:**
+    Create a `.env` file in the root of the `musketeers-backend` directory. Copy the contents of `.env.example` (if it exists) or add the following:
+    ```env
+    PORT=8081
+    DB_HOST=localhost
+    DB_USER=your_db_user
+    DB_PASSWORD=your_db_password
+    DB_NAME=musketeers_db
+    ```
+    Replace `your_db_user`, `your_db_password`, and `musketeers_db` with your actual MySQL credentials and desired database name.
+4.  **Database Setup:**
+    Ensure your MySQL server is running. Create the database specified in your `.env` file (e.g., `musketeers_db`).
+    ```sql
+    CREATE DATABASE musketeers_db;
+    ```
+    You will also need to create a `products` table. A script or migration tool can be added later for this. For now, you can use a SQL client to create it:
+    ```sql
+    USE musketeers_db;
 
-## Features (Backend)
+    CREATE TABLE products (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        category VARCHAR(100),
+        price DECIMAL(10, 2) NOT NULL,
+        description TEXT,
+        imageUrl VARCHAR(255),
+        createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+    ```
 
-* **Product Management:** API endpoints for creating, retrieving, updating, and deleting jewelry products.
-* **User Authentication:** Secure user registration, login, and authorization.
-* **Order Processing:** API endpoints for creating, retrieving, and managing orders.
-* **Inventory Management:** Tracking and updating jewelry inventory.
-* **Data Persistence:** Storing and retrieving data from a database.
-* **API Documentation:** (Ideally, include a link to Swagger or a similar API documentation tool if used)
+## Running the Application
 
-## Technologies Used (Backend)
+-   **Development Mode (with auto-reload using nodemon):**
+    ```bash
+    npm run dev
+    ```
+-   **Production Mode:**
+    ```bash
+    npm start
+    ```
 
-* Spring Boot
-* Java
-* Spring Data JPA (for database interaction)
-* Spring Security (for authentication and authorization)
-* [Database (e.g., PostgreSQL, MySQL)]
-* [Other Libraries/Frameworks (e.g., Lombok, MapStruct)]
-
-## Installation (Backend)
-
-1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/your-username/musketeers-backend.git # Replace with your actual repository URL
-   cd musketeers-backend
-   ```
-
-2. **Ensure you have Java JDK (version 17 or later, e.g., JDK 21, compatible with Maven release 17) and Maven installed.**
-   * Verify your active Java version for Maven using `mvn -v`.
-   * Ensure `JAVA_HOME` environment variable points to your JDK 17+ installation.
-
-3. **Set up MySQL:**
-   * Install MySQL server.
-   * Create a database (e.g., `jewelrystore`).
-   * Create a MySQL user with privileges for this database.
-   * Update `src/main/resources/application.properties` with your MySQL URL, username, and password.
-
-4. **Build the project:**
-   Open a terminal in the `musketeers-backend` directory and run:
-   ```bash
-   mvn clean install
-   ```
-   This command will also download dependencies and compile the code.
-
-## Usage (Backend)
-
-1. **Run the application:**
-   After a successful build, you can run the application using:
-   ```bash
-   mvn spring-boot:run
-   ```
-   The backend will typically start on `http://localhost:8081/api` (as configured in `application.properties`).
-
-## Project Structure (Backend)
-
-* **src/main/java:** Contains the Java source code for the application.
-* **src/main/resources:** Contains configuration files such as `application.properties`.
-* **pom.xml:** Maven configuration file for managing dependencies and build settings.
+The API will be available at `http://localhost:8081` (or the port specified in your `.env` file).
 
 ## API Endpoints
 
-* **Products:** `/api/products`
-* **Users:** `/api/users`
-* **Orders:** `/api/orders`
+(To be defined)
 
-## Contributing
+-   `POST /api/products` - Add a new product
+-   ... other product endpoints
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+## Dev Container
 
-## License
+This project includes a Dev Container setup for a consistent development environment using Docker.
 
-This project is licensed under the MIT License.
+1.  Ensure you have Docker Desktop installed and running.
+2.  Ensure you have the "Dev Containers" extension installed in VS Code.
+3.  Open the `musketeers-frontend` folder (or the root `muskateer` folder if you want to include both frontend and backend in the same Dev Container scope, though the current setup is for backend-only) in VS Code.
+4.  When prompted, click "Reopen in Container". If not prompted, open the command palette (Ctrl+Shift+P or Cmd+Shift+P) and select "Dev Containers: Reopen in Container".
 
-## Contact
-
-For any inquiries, please contact [your-email@example.com].
+The Dev Container will build and start, providing a Node.js environment and a MySQL service. The backend application will be accessible from your host machine.

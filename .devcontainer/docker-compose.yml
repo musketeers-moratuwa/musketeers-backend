@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .. # Build from the parent directory where Dockerfile will be
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached # Mount the entire muskateer project
+    command: sleep infinity
+    ports:
+      - "8081:8081" # Backend port
+    environment:
+      - NODE_ENV=development
+      - PORT=8081
+      - DB_HOST=db
+      - DB_USER=root # Or your preferred MySQL user in the container
+      - DB_PASSWORD=password # Your preferred MySQL password in the container
+      - DB_NAME=musketeers_db
+    depends_on:
+      - db
+    networks:
+      - musketeer_network
+
+  db:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password # Same as DB_PASSWORD for app if using root
+      MYSQL_DATABASE: musketeers_db # Same as DB_NAME for app
+    ports:
+      - "3306:3306" # MySQL port
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql # init script
+    networks:
+      - musketeer_network
+
+volumes:
+  mysql_data:
+
+networks:
+  musketeer_network:
+    driver: bridge
