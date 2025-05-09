@@ -17,6 +17,7 @@ services:
       - DB_USER=root # Or your preferred MySQL user in the container
       - DB_PASSWORD=password # Your preferred MySQL password in the container
       - DB_NAME=musketeers_db
+      - JWT_SECRET=yourDevContainerSecretKey123 # Secret for JWT inside container
     depends_on:
       - db
     networks:

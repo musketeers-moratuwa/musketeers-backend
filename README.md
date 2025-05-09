@@ -23,14 +23,16 @@ This is the backend for the Musketeers application, built with Node.js and Expre
     DB_USER=your_db_user
     DB_PASSWORD=your_db_password
     DB_NAME=musketeers_db
+    JWT_SECRET=yourSuperSecretKeyForJWTGeneration123!@#
     ```
     Replace `your_db_user`, `your_db_password`, and `musketeers_db` with your actual MySQL credentials and desired database name.
+    **Important:** Replace `yourSuperSecretKeyForJWTGeneration123!@#` with a strong, unique secret key for signing JWTs.
 4.  **Database Setup:**
     Ensure your MySQL server is running. Create the database specified in your `.env` file (e.g., `musketeers_db`).
     ```sql
     CREATE DATABASE musketeers_db;
     ```
-    You will also need to create a `products` table. A script or migration tool can be added later for this. For now, you can use a SQL client to create it:
+    You will also need to create `products` and `users` tables. A script or migration tool can be added later for this. For now, you can use a SQL client to create them:
     ```sql
     USE musketeers_db;
 
@@ -43,6 +45,15 @@ This is the backend for the Musketeers application, built with Node.js and Expre
         imageUrl VARCHAR(255),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL UNIQUE,
+        email VARCHAR(100) NOT NULL UNIQUE,
+        password_hash VARCHAR(255) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     );
     ```
 
@@ -61,10 +72,19 @@ The API will be available at `http://localhost:8081` (or the port specified in y
 
 ## API Endpoints
 
-(To be defined)
+### Products
 
--   `POST /api/products` - Add a new product
--   ... other product endpoints
+-   `GET /api/products` - Get all products
+-   `GET /api/products/:id` - Get product by ID
+-   `GET /api/products/category/:category` - Get products by category
+-   `POST /api/products` - Add a new product (Protected - Placeholder)
+
+### Authentication
+
+-   `POST /api/auth/register` - Register a new user
+    -   Body: `{ "username": "testuser", "email": "test@example.com", "password": "password123" }`
+-   `POST /api/auth/login` - Login an existing user
+    -   Body: `{ "username": "testuser_or_email@example.com", "password": "password123" }`
 
 ## Dev Container
 
