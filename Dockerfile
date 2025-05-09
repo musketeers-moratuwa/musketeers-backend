@@ -1,33 +1,30 @@
-FROM eclipse-temurin:17-jdk AS build
+# Use an official Maven image to build the application. 
+# This image includes JDK 17 by default.
+FROM maven:3.9-eclipse-temurin-17 AS builder
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the current directory contents into the container
-COPY . /app
+# Copy the pom.xml and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Build the application using javac
-RUN javac main.java
+# Copy the rest of the application code
+COPY src ./src
 
-# Create the Manifest file (fixing potential format issues)
-RUN printf "Main-Class: main\n\n" > MANIFEST.MF
+# Package the application
+RUN mvn package -DskipTests
 
-# Package into a JAR file
-RUN jar cfm main.jar MANIFEST.MF main.class
-
-# Use a lightweight JDK image for the runtime
-FROM openjdk:8-jdk-alpine
+# Use a slim JDK image for the runtime environment
+FROM eclipse-temurin:17-jre-jammy
 
 WORKDIR /app
-VOLUME /tmp
-ARG JAVA_OPTS
-ENV JAVA_OPTS=$JAVA_OPTS
 
-# Copy the built JAR file from the build stage
-COPY --from=build /app/main.jar app.jar
+# Copy the built JAR file from the builder stage
+COPY --from=builder /app/target/*.jar app.jar
 
-# Expose the application port
-EXPOSE 3000
+# Expose the application port (as per README and application.properties)
+EXPOSE 8081
 
-# Run the application
+# Set the entrypoint to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
